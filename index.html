@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdgeTunnel 管理面板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-card">
+                <h1>EdgeTunnel</h1>
+                <p class="subtitle">代理隧道管理面板</p>
+                
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="password">管理员密码</label>
+                        <input type="password" id="password" placeholder="请输入管理员密码" required>
+                    </div>
+                    <button type="submit" class="login-btn">登录</button>
+                </form>
+                
+                <div id="loginMessage" class="message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 管理后台页面 -->
+    <div id="adminPage" class="page">
+        <header class="header">
+            <div class="header-content">
+                <h1>EdgeTunnel 管理面板</h1>
+                <div class="header-actions">
+                    <span id="userInfo">欢迎使用</span>
+                    <button id="logoutBtn" class="logout-btn">退出登录</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- 概览卡片 -->
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>订阅链接</h3>
+                    <div class="card-content">
+                        <div class="copy-box">
+                            <input type="text" id="subLink" readonly>
+                            <button onclick="copySubLink()" class="copy-btn">复制</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>使用统计</h3>
+                    <div class="card-content">
+                        <div class="stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Pages 请求</span>
+                                <span id="pagesUsage" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Workers 请求</span>
+                                <span id="workersUsage" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">总请求</span>
+                                <span id="totalUsage" class="stat-value">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>快速操作</h3>
+                    <div class="card-content">
+                        <div class="quick-actions">
+                            <button onclick="showConfig()" class="action-btn">配置管理</button>
+                            <button onclick="refreshStats()" class="action-btn">刷新统计</button>
+                            <button onclick="exportConfig()" class="action-btn">导出配置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 配置管理区域 -->
+            <div id="configSection" class="config-section">
+                <h2>配置管理</h2>
+                
+                <div class="config-tabs">
+                    <button class="tab-btn active" onclick="showTab('basic')">基本配置</button>
+                    <button class="tab-btn" onclick="showTab('subscription')">订阅配置</button>
+                    <button class="tab-btn" onclick="showTab('proxy')">代理配置</button>
+                </div>
+
+                <div id="basicTab" class="tab-content active">
+                    <form id="basicConfigForm">
+                        <div class="form-group">
+                            <label for="subName">订阅名称</label>
+                            <input type="text" id="subName" placeholder="EdgeTunnel">
+                        </div>
+                        <div class="form-group">
+                            <label for="subUpdateTime">订阅更新时间（小时）</label>
+                            <input type="number" id="subUpdateTime" min="1" max="24" value="6">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="skipCertVerify"> 跳过证书验证
+                            </label>
+                        </div>
+                        <button type="submit" class="save-btn">保存配置</button>
+                    </form>
+                </div>
+
+                <div id="subscriptionTab" class="tab-content">
+                    <form id="subscriptionConfigForm">
+                        <div class="form-group">
+                            <label for="subApi">订阅转换API</label>
+                            <input type="text" id="subApi" placeholder="https://subapi.cmliussss.net">
+                        </div>
+                        <div class="form-group">
+                            <label for="subConfig">订阅转换配置</label>
+                            <input type="text" id="subConfig" placeholder="ACL4SSR配置URL">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="subEmoji"> 启用Emoji
+                            </label>
+                        </div>
+                        <button type="submit" class="save-btn">保存配置</button>
+                    </form>
+                </div>
+
+                <div id="proxyTab" class="tab-content">
+                    <form id="proxyConfigForm">
+                        <div class="form-group">
+                            <label for="proxyIP">代理IP</label>
+                            <input type="text" id="proxyIP" placeholder="auto">
+                        </div>
+                        <div class="form-group">
+                            <label for="socks5Config">SOCKS5代理</label>
+                            <input type="text" id="socks5Config" placeholder="user:pass@host:port">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="globalProxy"> 全局代理
+                            </label>
+                        </div>
+                        <button type="submit" class="save-btn">保存配置</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
